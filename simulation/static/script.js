@@ -104,7 +104,7 @@ function drawNetwork() {
         ctx.beginPath();
         ctx.moveTo(source.x, source.y);
         ctx.lineTo(target.x, target.y);
-        ctx.strokeStyle = "gray";
+        ctx.strokeStyle = link.type === "interregion" ? "red" : "gray"; // Lien interrégion en rouge
         ctx.stroke();
     });
 
@@ -121,3 +121,4 @@ function drawNetwork() {
         drawNodeRegion(selectedNode);
     }
 }
+
