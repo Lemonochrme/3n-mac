@@ -25,5 +25,12 @@ def discover_network():
 def node_info(node_id):
     return jsonify(protocol.get_node_info(node_id))
 
+@app.route("/delete_node", methods=["POST"])
+def delete_node():
+    data = request.json
+    protocol.delete_node(data["node_id"])
+    return jsonify({"status": "success"})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
