@@ -22,20 +22,10 @@ class Protocol:
         self.nodes.append(node)
         return node
 
-    def delete_node(self, node_id):
-        """Supprime un nœud du réseau et met à jour les connexions."""
-        if 0 <= node_id < len(self.nodes):
-            self.nodes.pop(node_id)
-            self.links = [
-                link
-                for link in self.links
-                if link["source"] != node_id and link["target"] != node_id
-            ]
-            for idx, node in enumerate(self.nodes):
-                node["id"] = idx
-            for link in self.links:
-                link["source"] = self._adjust_id(link["source"], node_id)
-                link["target"] = self._adjust_id(link["target"], node_id)
+    def clean_workspace(self):
+        """Nettoie tous les nœuds et liens du réseau."""
+        self.nodes = []
+        self.links = []
 
     def _adjust_id(self, link_id, removed_id):
         return link_id - 1 if link_id > removed_id else link_id

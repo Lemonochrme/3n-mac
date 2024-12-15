@@ -25,10 +25,9 @@ def discover_network():
 def node_info(node_id):
     return jsonify(protocol.get_node_info(node_id))
 
-@app.route("/delete_node", methods=["POST"])
-def delete_node():
-    data = request.json
-    protocol.delete_node(data["node_id"])
+@app.route("/clean_workspace", methods=["POST"])
+def clean_workspace():
+    protocol.clean_workspace()
     return jsonify({"status": "success"})
 
 

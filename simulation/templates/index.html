@@ -10,7 +10,14 @@
     <div id="app">
         <canvas id="networkCanvas"></canvas>
         <div id="infoPanel">Shift+Click on a node to see its information</div>
-        <button id="discoverNetwork">Discover Network</button>
+        <div style="position: absolute; top: 20px; left: 20px;">
+            <button id="discoverNetwork">Discover Network</button>
+            <button id="cleanWorkspace" style="color: red;">Clean Workspace</button>
+        </div>
+        <div id="consolePanel">
+            <h3>Console</h3>
+            <div id="consoleLog"></div>
+        </div>
     </div>
     <script src="/static/script.js"></script>
 </body>

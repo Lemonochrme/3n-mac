@@ -7,6 +7,14 @@ let nodes = [];
 let links = [];
 let selectedNode = null;
 
+function logToConsole(message) {
+    const consoleLog = document.getElementById("consoleLog");
+    const logEntry = document.createElement("div");
+    logEntry.textContent = message;
+    consoleLog.appendChild(logEntry);
+    consoleLog.scrollTop = consoleLog.scrollHeight;
+}
+
 // Ajout d'un nœud
 canvas.addEventListener("click", (event) => {
     if (event.shiftKey) return; // Empêcher l'ajout si Shift est appuyé
@@ -24,6 +32,7 @@ canvas.addEventListener("click", (event) => {
         .then((node) => {
             nodes.push(node);
             drawNetwork();
+            logToConsole(`Node added: ${JSON.stringify(node)}`);
         });
 });
 
@@ -48,27 +57,8 @@ canvas.addEventListener("click", (event) => {
             .then((info) => {
                 const infoPanel = document.getElementById("infoPanel");
                 infoPanel.textContent = `Node ID: ${info.id}, Info: ${info.info}`;
+                logToConsole(`Node selected: ${JSON.stringify(info)}`);
             });
-    }
-});
-
-// Supprimer un nœud sélectionné
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Delete" && selectedNode) {
-        fetch(`/delete_node`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ node_id: selectedNode.id }),
-        }).then(() => {
-            nodes = nodes.filter((node) => node.id !== selectedNode.id);
-            links = links.filter(
-                (link) =>
-                    link.source !== selectedNode.id &&
-                    link.target !== selectedNode.id
-            );
-            selectedNode = null;
-            drawNetwork();
-        });
     }
 });
 
@@ -80,6 +70,18 @@ document.getElementById("discoverNetwork").addEventListener("click", () => {
             nodes = data.nodes;
             links = data.links;
             drawNetwork();
+            logToConsole("Network discovered");
+        });
+});
+
+document.getElementById("cleanWorkspace").addEventListener("click", () => {
+    fetch("/clean_workspace", { method: "POST" })
+        .then((response) => response.json())
+        .then(() => {
+            nodes = [];
+            links = [];
+            drawNetwork();
+            logToConsole("Workspace cleaned");
         });
 });
 
@@ -121,4 +123,3 @@ function drawNetwork() {
         drawNodeRegion(selectedNode);
     }
 }
-

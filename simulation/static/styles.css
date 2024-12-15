@@ -28,10 +28,25 @@ body {
     font-size: 14px;
 }
 
-button {
+#consolePanel {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background-color: #000000;
+    overflow-y: auto;
+}
+
+#consoleLog {
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+
+button {
     background-color: #444;
     color: white;
     border: none;
