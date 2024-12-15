@@ -1,4 +1,4 @@
-# 3n-mac
+# 3N-MAC
 Near Network MAC Protocol for Wireless Sensor Network
 
 ## Installation
