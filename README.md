@@ -90,7 +90,6 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
      - Each node checks whether the channel is free or not, before emitting a message.
      - When a collision is detected, emission is reproduced after a random delay.
 
----
 
 ### **Summary of the main stages:**
 
@@ -98,5 +97,3 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
 - **Sending a message**: Messages follow the path with the best RSSI, with each node acting as a relay, if necessary.
 - **Dealing with defects**: When a node disappears, routes are automatically recalculated, to ensure connectivity.
 - **Optimizing energy consumption**: Nodes work on idle modes and optimized transmission cycles, to reduce their energy consumption.
-
-With this protocol, the network is **flexible, robust and energy-efficient**, while remaining simple to understand and implement.
