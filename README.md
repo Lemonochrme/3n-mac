@@ -6,6 +6,7 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
 2. Create a new python env called *3n-mac*: `python -m venv ~/.virtualenvs/3n-mac`
 3. Use the new python env : `source ~/.virtualenvs/3n-mac/bin/activate` if you use fish `source ~/.virtualenvs/3n-mac/bin/activate.fish`
 4. Install the dependencies : `pip install -r requirements.txt`
+5. Start the application : `python3 app.py`
 
 ### **1. When adding a new node:**
 
