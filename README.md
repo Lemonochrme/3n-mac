@@ -1,106 +1,100 @@
-# 3n-mac
-Near Network MAC Protocol for Wireless Sensor Network
+# 3N-MAC
+Near Nodes Network MAC Protocol for Wireless Sensor Network
 
 ## Installation
 1. Clone the repository
 2. Create a new python env called *3n-mac*: `python -m venv ~/.virtualenvs/3n-mac`
 3. Use the new python env : `source ~/.virtualenvs/3n-mac/bin/activate` if you use fish `source ~/.virtualenvs/3n-mac/bin/activate.fish`
 4. Install the dependencies : `pip install -r requirements.txt`
+5. Start the application : `python3 app.py`
 
+### **1. When adding a new node:**
 
+1. **Activation**:
+   - The new node powers on and starts with mode **FD (Fast Discovery)**.
+   - It sends *beacons* every second, to signal its presence.
 
+2. **Neighbor discovery**:
+   - Neighbor nodes already inside the network answer with a *welcoming beacon* containing :
+     - Their address.
+     - Their signal strength (RSSI).
+     - Network information, necessary to join the cluster (e.g. security key or network ID).
 
+3. **Best neighbor selection**:
+   - To establish an initial connection, the new node selects the neighbor with the **best RSSI**.
+   - It then proceeds to send a **connection** message to the selected neighbor.
 
-### **1. Quand on ajoute un nouveau nœud :**
+4. **Connection approval**:
+   - The neighbor checks whether the new node is approved (shared key authentification).
+   - If everything checks out, the neighbor adds the new node to its routing table and transmits the information to the remaining nodes belonging to the network.
 
-1. **Activation** :
-   - Le nouveau nœud s’allume et commence en mode **FD (Fast Discovery)**.
-   - Il envoie des *beacons* toutes les 1 seconde pour signaler sa présence.
-
-2. **Recherche de voisins** :
-   - Les nœuds voisins déjà dans le réseau répondent avec un *beacon de bienvenue* contenant :
-     - Leur adresse.
-     - La force du signal (RSSI).
-     - Les informations réseau nécessaires pour rejoindre le maillage (ex. clé de sécurité ou ID réseau).
-
-3. **Sélection du meilleur voisin** :
-   - Le nouveau nœud choisit le voisin avec le **meilleur RSSI** pour établir une connexion initiale.
-   - Il envoie un message de **connexion** au voisin choisi.
-
-4. **Validation de la connexion** :
-   - Le voisin vérifie que le nouveau nœud est autorisé (authentification avec une clé partagée).
-   - Si tout est correct, le voisin ajoute le nouveau nœud à sa table de routage et transmet l’information au reste du réseau.
-
-5. **Passage en mode SD** :
-   - Une fois connecté et stabilisé, le nouveau nœud passe en mode **SD (Slow Discovery)** pour économiser de l’énergie.
+5. **Switching to SD mode**:
+   - Once connected and stabilized, the new node is switched to **SD (Slow Discovery)** mode, to save on energy.
 
 ---
 
-### **2. Organisation du réseau après ajout d’un nœud :**
+### **2. Organizing the network after adding a node:**
 
-1. **Mise à jour des routes** :
-   - Tous les nœuds voisins mettent à jour leurs tables de routage pour inclure le nouveau nœud.
-   - Les routes sont recalculées dynamiquement en fonction du **RSSI** et de la charge énergétique des nœuds.
+1. **Updating routes**:
+   - All neighbor nodes update their routing table to include the new node.
+   - Routes are recalculated dynamically, according to **RSSI** and nodes' energy load.
 
-2. **Propagation de l’information** :
-   - Le réseau entier est informé qu’un nouveau nœud a été ajouté grâce à un mécanisme de diffusion contrôlée (éviter la surcharge).
+2. **Information propagation**:
+   - The entire network is informed of the addition of a node, thanks to a controlled broadcast mechanism (to avoid overloads).
 
-3. **Stabilisation** :
-   - Une fois les routes recalculées, le réseau fonctionne normalement, avec le nouveau nœud pleinement intégré.
-
----
-
-### **3. Envoyer un message d’un nœud A à un nœud B :**
-
-1. **Détermination de la route** :
-   - Le nœud A consulte sa **table de routage** pour trouver le meilleur chemin vers B.
-   - Si B est un voisin direct, le message est envoyé directement.
-   - Sinon, le message est envoyé au **prochain nœud sur le chemin** (déterminé par le RSSI et les priorités).
-
-2. **Transmission du message** :
-   - Le message est transmis de nœud en nœud jusqu’à atteindre le nœud B.
-   - Chaque nœud intermédiaire :
-     - Consulte sa propre table de routage.
-     - Transmet le message au prochain nœud avec le **meilleur RSSI** vers la destination.
-
-3. **Accusé de réception** :
-   - Une fois que le message atteint B, un **accusé de réception** est envoyé à A en suivant le chemin inverse.
-   - Si l’accusé de réception n’est pas reçu après un certain délai, A retransmet le message en essayant un autre chemin.
+3. **Stabilization**:
+   - Once routes are recalculated, the network should operate normally, with the new fully integrated node.
 
 ---
 
-### **4. Que se passe-t-il si un nœud disparaît ou échoue ?**
+### **3. Sending a message from node A to B:**
 
-1. **Détection de la panne** :
-   - Les nœuds voisins du nœud défaillant détectent l’absence de ses *beacons SD* après 3 cycles consécutifs.
+1. **Route determining**:
+   - Node A checks its **routing table** to find the best path to B.
+   - If B is a direct neighbor, the message is directly sent.
+   - Otherwise, the message is sent to the **next node on path** (determined by RSSI and priorities)
 
-2. **Mise à jour du réseau** :
-   - Les voisins suppriment le nœud défaillant de leur table de routage.
-   - Une **reconfiguration dynamique** des routes est effectuée.
+2. **Message transmitting**:
+   - The message is transmitted from node to node, until reaching B.
+   - Each intermediary node:
+     - Checks its own routing table.
+     - Forwards the message to the next node, with the **best RSSI** towards destination.
 
-3. **Redondance** :
-   - Les messages en transit sont automatiquement redirigés via d’autres chemins si disponibles.
-
----
-
-### **5. Optimisation énergétique et communication efficace :**
-
-1. **Mode veille** :
-   - Les nœuds qui n’envoient ni ne reçoivent de messages passent en **mode veille** pour économiser leur batterie.
-   - Ils se réveillent uniquement pour écouter les *beacons SD* ou envoyer/recevoir des données.
-
-2. **Réduction des collisions** :
-   - Le protocole utilise **CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance)** :
-     - Chaque nœud vérifie si le canal est libre avant d’envoyer un message.
-     - Si une collision est détectée, l’envoi est réessayé après un délai aléatoire.
+3. **Receipt acknowledgement**:
+   - Once the message reaches B, a **receipt acknowledgement** is answered to A, following the reverse path.
+   - If it is not received after a certain delay, A resends the acknowledgement, following another path.
 
 ---
 
-### **Résumé des étapes principales :**
+### **4. What happens when a node disappears or defects?**
 
-- **Ajouter un nœud** : Le nouveau nœud découvre ses voisins, se connecte au meilleur voisin, et est intégré au réseau.
-- **Envoyer un message** : Les messages passent par le chemin avec le meilleur RSSI, chaque nœud jouant le rôle de relais si nécessaire.
-- **Gérer les pannes** : Si un nœud disparaît, les routes sont recalculées automatiquement pour maintenir la connectivité.
-- **Optimiser l’énergie** : Les nœuds utilisent des modes veille et des cycles de transmission optimisés pour réduire leur consommation.
+1. **Detection upon failure**:
+   - Neighbors of a defect node can detect the absence of its *SD beacons*, after 3 consecutive cycles.
 
-Avec cette organisation, le réseau est **flexible, robuste, et efficace énergétiquement**, tout en restant simple à comprendre et à mettre en œuvre.
+2. **Network update**:
+   - Neighbors delete defect nodes from their routing table.
+   - Routes are **dynamically reconfigured**. 
+
+3. **Redundancy**:
+   - Transiting messages are automatically redirected via other paths, if available.
+
+---
+
+### **5. Energy optimization and efficient communication:**
+
+1. **Idle mode**:
+   - Nodes which are neither emitting nor receiving messages turn to **idle mode**, to save their battery life.
+   - They wake up only to listen for *SD beacons* or to emit/receive data.
+
+2. **Reducing collisions** :
+   - The protocol uses **CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance)**:
+     - Each node checks whether the channel is free or not, before emitting a message.
+     - When a collision is detected, emission is reproduced after a random delay.
+
+
+### **Summary of the main stages:**
+
+- **Adding a node**: The new node discovers its neignbors, then connects to the **best**, and it is finally integrated to the network.
+- **Sending a message**: Messages follow the path with the best RSSI, with each node acting as a relay, if necessary.
+- **Dealing with defects**: When a node disappears, routes are automatically recalculated, to ensure connectivity.
+- **Optimizing energy consumption**: Nodes work on idle modes and optimized transmission cycles, to reduce their energy consumption.
