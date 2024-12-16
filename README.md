@@ -1,6 +1,19 @@
 # 3N-MAC
 Near Nodes Network MAC Protocol for Wireless Sensor Network
 
+## To create a module using GNU Radio:
+```
+sudo apt install gnuradio 
+```
+
+Then create the component:
+```
+gr_modtool newmod 3nmac
+cd gr-3nmac
+gr_modtool add -t general 3nmac
+```
+Then choose Python and give the correct License.
+
 ## NS-3 Installation
 1. Clone the repository
 2. Install the following dependencies 
