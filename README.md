@@ -7,15 +7,20 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
 
 
 ## To create a module using GNU Radio:
+![Arch Installation](https://img.shields.io/badge/-Installing%20on%20Ubuntu-05122A?style=flat&logo=ubuntu&logoColor=FFFFFF&color=E95420)
 ```
-sudo apt install gnuradio 
+sudo apt install gnuradio cmake libboost-all-dev
+```
+![Arch Installation](https://img.shields.io/badge/-Installing%20on%20Arch%20Linux-05122A?style=flat&logo=archlinux&logoColor=FFFFFF&color=1793D1)
+```
+pacman -S gnuradio python-cairo cmake boost
 ```
 
 Then create the component:
 ```
-gr_modtool newmod 3nmac
-cd gr-3nmac
-gr_modtool add -t general 3nmac
+gr_modtool newmod <name>
+cd gr-<name>
+gr_modtool add -t general <name>
 ```
 Then choose Python and give the correct License.
 
