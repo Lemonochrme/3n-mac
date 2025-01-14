@@ -1,0 +1,24 @@
+id: 3n_mac_decode
+label: 3N-MAC Decode
+category: '[3N-MAC]'
+templates:
+  imports: from gnuradio import n3_mac
+  make: n3_mac.decode()
+parameters:
+- id: 3n_decode
+inputs:
+  - label: "size"
+    domain: stream
+    dtype: uint8
+  - label: "payload"
+    domain: stream
+    dtype: uint8
+  - label: "crc"
+    domain: stream
+    dtype: uint32
+outputs:
+  - label: "data"
+    domain: stream
+    dtype: uint8
+  
+file_format: 1

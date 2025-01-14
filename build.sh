@@ -17,6 +17,7 @@ gr_remove() {
   cd $full_path || return 1
   sudo make uninstall
   sudo ldconfig
+  sudo rm -rf /usr/local/share/gnuradio/grc/blocks
 }
 
 # Function to compile a GNU component

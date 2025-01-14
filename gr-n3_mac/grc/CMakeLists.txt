@@ -6,5 +6,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-install(FILES
-    n3_mac_n3_mac.block.yml DESTINATION share/gnuradio/grc/blocks)
+install(
+    FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/decode.block.yml
+        ${CMAKE_CURRENT_SOURCE_DIR}/encode.block.yml
+    DESTINATION share/gnuradio/grc/blocks
+)

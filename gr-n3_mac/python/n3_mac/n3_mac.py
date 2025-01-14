@@ -10,15 +10,17 @@
 import numpy
 from gnuradio import gr
 
-class n3_mac(gr.basic_block):
+class decode(gr.basic_block):
     """
-    docstring for block n3_mac
+    docstring for block decode
     """
     def __init__(self):
-        gr.basic_block.__init__(self,
-            name="n3_mac",
-            in_sig=[numpy.float32, ],
-            out_sig=[numpy.float32, ])
+        gr.basic_block.__init__(
+            self,
+            name="decode",
+            in_sig=[numpy.uint8], # Stream of bytes
+            out_sig=[numpy.uint8, numpy.uint8, numpy.uint8],  # Outputs: size, payload, CRC
+        )
 
     def forecast(self, noutput_items, ninputs):
         # ninputs is the number of input connections
@@ -37,3 +39,27 @@ class n3_mac(gr.basic_block):
         self.consume_each(noutput_items)
         return noutput_items
 
+class encode(gr.basic_block):
+    def __init__(self):
+        gr.basic_block.__init__(
+            self,
+            name="encode",
+            in_sig=[numpy.uint8, numpy.uint8, numpy.uint8],  # Outputs: size, payload, CRC
+            out_sig=[numpy.uint8], # Stream of bytes
+        )
+    def forecast(self, noutput_items, ninputs):
+        # ninputs is the number of input connections
+        # setup size of input_items[i] for work call
+        # the required number of input items is returned
+        #   in a list where each element represents the
+        #   number of required items for each input
+        ninput_items_required = [noutput_items] * ninputs
+        return ninput_items_required
+
+    def general_work(self, input_items, output_items):
+        # For this sample code, the general block is made to behave like a sync block
+        ninput_items = min([len(items) for items in input_items])
+        noutput_items = min(len(output_items[0]), ninput_items)
+        output_items[0][:noutput_items] = input_items[0][:noutput_items]
+        self.consume_each(noutput_items)
+        return noutput_items
