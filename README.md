@@ -1,6 +1,11 @@
 # 3N-MAC
 Near Nodes Network MAC Protocol for Wireless Sensor Network
 
+# Todo
+- [ ] Implémenter CSMA/CA dans gnuradio
+- [ ] Implémenter 3N-MAC
+
+
 ## To create a module using GNU Radio:
 ```
 sudo apt install gnuradio 
