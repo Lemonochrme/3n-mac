@@ -1,0 +1,6 @@
+/*!
+ * \defgroup block GNU Radio CSMA C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the CSMA GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */
