@@ -2,45 +2,8 @@
 Near Nodes Network MAC Protocol for Wireless Sensor Network
 
 # Todo
-## Étape 1 : Préparation
-- [ ] Installer et configurer GNU Radio.
-- [ ] Étudier `gr_modtool` pour créer des blocs personnalisés.
-- [ ] Configurer un environnement de simulation réseau.
-
-## Étape 2 : Implémentation de CSMA/CA
-- [ ] Créer un bloc GNU Radio pour :
-  - Détection de canal libre (carrier sense).
-  - Gestion des collisions avec délai aléatoire.
-  - Réémission après collision.
-- [ ] Tester CSMA/CA avec plusieurs émetteurs.
-
-## Étape 3 : Implémentation du 3N-MAC
-### 1. Gestion de l’ajout de nœuds
-- [ ] Mode FD : Émission de balises chaque seconde.
-- [ ] Réponse des voisins avec :
-  - Adresse, RSSI, informations réseau.
-- [ ] Sélection du meilleur voisin (RSSI).
-- [ ] Vérification de la clé et ajout à la table de routage.
-- [ ] Transition automatique au mode SD.
-
-### 2. Organisation du réseau
-- [ ] Mise à jour dynamique des tables de routage.
-- [ ] Propagation contrôlée des informations sur les nouveaux nœuds.
-- [ ] Stabilisation après ajout.
-
-### 3. Transmission de messages
-- [ ] Routage via table (chemin RSSI optimal).
-- [ ] Transmission nœud à nœud.
-- [ ] Gestion des accusés de réception et retransmissions.
-
-### 4. Gestion des défaillances
-- [ ] Détection d’absence de balises SD après 3 cycles.
-- [ ] Suppression des nœuds défaillants des tables.
-- [ ] Reconfiguration dynamique des routes.
-
-### 5. Optimisation énergétique
-- [ ] Implémenter le mode Idle pour les nœuds inactifs.
-- [ ] Réduire les cycles d’émission/réception.
+- [ ] Implémenter CSMA/CA dans gnuradio
+- [ ] Implémenter 3N-MAC
 
 
 ## To create a module using GNU Radio:
