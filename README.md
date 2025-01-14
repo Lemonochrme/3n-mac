@@ -6,7 +6,7 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
 - [ ] Implémenter 3N-MAC
 
 
-## To create a module using GNU Radio:
+## Installation
 ![Arch Installation](https://img.shields.io/badge/-Installing%20on%20Ubuntu-05122A?style=flat&logo=ubuntu&logoColor=FFFFFF&color=E95420)
 ```
 sudo apt install gnuradio cmake libboost-all-dev
@@ -16,7 +16,26 @@ sudo apt install gnuradio cmake libboost-all-dev
 pacman -S gnuradio python-cairo cmake boost
 ```
 
-Then create the component:
+## Compile and install a project
+Using the `build.sh` tool.
+```
+./build.sh compile <name>
+```
+The name of the component can be either `n3_mac` or `csma` for now. The folder is automatically detected without the "gr" prefix.
+
+You can uninstall the component if anything goes wrong:
+```
+./build.sh remove <name>
+```
+
+Finally, you can clean the build folder
+```
+./build.sh clean <name>
+```
+
+## Create a new component
+
+To create a new component:
 ```
 gr_modtool newmod <name>
 cd gr-<name>
