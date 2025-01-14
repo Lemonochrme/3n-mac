@@ -42,16 +42,6 @@ Near Nodes Network MAC Protocol for Wireless Sensor Network
 - [ ] Implémenter le mode Idle pour les nœuds inactifs.
 - [ ] Réduire les cycles d’émission/réception.
 
-## Étape 4 : Tests
-- [ ] Simuler un réseau avec plusieurs nœuds.
-- [ ] Tester l’ajout de nœuds, la transmission et la gestion des défaillances.
-- [ ] Vérifier la réduction des collisions avec CSMA/CA.
-- [ ] Évaluer l’économie d’énergie.
-
-## Étape 5 : Documentation et optimisation
-- [ ] Documenter l’implémentation.
-- [ ] Analyser les performances (latence, énergie, collisions).
-- [ ] Optimiser les blocs si nécessaire.
 
 ## To create a module using GNU Radio:
 ```
