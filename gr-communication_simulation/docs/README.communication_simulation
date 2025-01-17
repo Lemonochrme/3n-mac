@@ -1,0 +1,11 @@
+This is the communication_simulation-write-a-block package meant as a guide to building
+out-of-tree packages. To use the communication_simulation blocks, the Python namespaces
+is in 'communication_simulation', which is imported as:
+
+    import communication_simulation
+
+See the Doxygen documentation for details about the blocks available
+in this package. A quick listing of the details can be found in Python
+after importing by using:
+
+    help(communication_simulation)

@@ -1,0 +1,40 @@
+id: communication_simulation_communication_simulation
+label: communication_simulation
+category: '[communication_simulation]'
+
+templates:
+  imports: from gnuradio import communication_simulation
+  make: communication_simulation.communication_simulation(addr_src, addr_dst, data, addr_src_size, addr_dst_size, data_size)
+
+parameters:
+  - id: addr_src
+    label: Source Address
+    dtype: string
+  - id: addr_dst
+    label: Destination Address
+    dtype: string
+  - id: data
+    label: Data
+    dtype: string
+  - id: addr_src_size
+    label: Source Address Size
+    dtype: int
+    default: 2
+  - id: addr_dst_size
+    label: Destination Address Size
+    dtype: int
+    default: 2
+  - id: data_size
+    label: Data Size
+    dtype: int
+    default: 4
+inputs: []
+outputs:
+  - label: Source Address Output
+    dtype: byte
+  - label: Destination Address Output
+    dtype: byte
+  - label: Data Output
+    dtype: byte
+
+file_format: 1

@@ -1,0 +1,33 @@
+id: mac_encode_mac_encode
+label: mac_encode
+category: '[mac_encode]'
+
+templates:
+  imports: from gnuradio import mac_encode
+  make: mac_encode.mac_encode(addr_src_size, addr_dst_size, data_size)
+
+parameters:
+  - id: addr_src_size
+    label: Source Address Size
+    dtype: int
+    default: 2
+  - id: addr_dst_size
+    label: Destination Address Size
+    dtype: int
+    default: 2
+  - id: data_size
+    label: Data Size
+    dtype: int
+    default: 4
+inputs:
+  - label: Source Address Input
+    dtype: byte
+  - label: Destination Address Input
+    dtype: byte
+  - label: Data Input
+    dtype: byte
+outputs:
+  - label: Encoded Output
+    dtype: byte
+
+file_format: 1

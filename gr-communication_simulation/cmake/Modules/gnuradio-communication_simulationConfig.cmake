@@ -1,0 +1,32 @@
+find_package(PkgConfig)
+
+PKG_CHECK_MODULES(PC_GR_COMMUNICATION_SIMULATION gnuradio-communication_simulation)
+
+FIND_PATH(
+    GR_COMMUNICATION_SIMULATION_INCLUDE_DIRS
+    NAMES gnuradio/communication_simulation/api.h
+    HINTS $ENV{COMMUNICATION_SIMULATION_DIR}/include
+        ${PC_COMMUNICATION_SIMULATION_INCLUDEDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/include
+          /usr/local/include
+          /usr/include
+)
+
+FIND_LIBRARY(
+    GR_COMMUNICATION_SIMULATION_LIBRARIES
+    NAMES gnuradio-communication_simulation
+    HINTS $ENV{COMMUNICATION_SIMULATION_DIR}/lib
+        ${PC_COMMUNICATION_SIMULATION_LIBDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+          ${CMAKE_INSTALL_PREFIX}/lib64
+          /usr/local/lib
+          /usr/local/lib64
+          /usr/lib
+          /usr/lib64
+          )
+
+include("${CMAKE_CURRENT_LIST_DIR}/gnuradio-communication_simulationTarget.cmake")
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GR_COMMUNICATION_SIMULATION DEFAULT_MSG GR_COMMUNICATION_SIMULATION_LIBRARIES GR_COMMUNICATION_SIMULATION_INCLUDE_DIRS)
+MARK_AS_ADVANCED(GR_COMMUNICATION_SIMULATION_LIBRARIES GR_COMMUNICATION_SIMULATION_INCLUDE_DIRS)
