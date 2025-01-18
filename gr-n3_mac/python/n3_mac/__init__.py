@@ -20,5 +20,6 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
+from .n3_mac import encode, decode
 
 #

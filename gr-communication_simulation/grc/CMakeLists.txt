@@ -6,6 +6,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-install(FILES
-    communication_simulation_communication_simulation.block.yml DESTINATION share/gnuradio/grc/blocks
+install(
+    FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tx.block.yml
+        ${CMAKE_CURRENT_SOURCE_DIR}/rx.block.yml
+    DESTINATION share/gnuradio/grc/blocks
 )

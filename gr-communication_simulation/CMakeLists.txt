@@ -14,7 +14,7 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
 ########################################################################
 # Project setup
 ########################################################################
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 project(gr-communication_simulation CXX C)
 enable_testing()
 
@@ -124,27 +124,29 @@ add_custom_target(uninstall
 add_subdirectory(include/gnuradio/communication_simulation)
 add_subdirectory(lib)
 add_subdirectory(apps)
+add_subdirectory(examples)
 add_subdirectory(docs)
 # NOTE: manually update below to use GRC to generate C++ flowgraphs w/o python
 if(ENABLE_PYTHON)
-  message(STATUS "PYTHON and GRC components are enabled")
-  add_subdirectory(python/communication_simulation)
-  add_subdirectory(grc)
+    message(STATUS "PYTHON and GRC components are enabled")
+    add_subdirectory(python/communication_simulation)
+    add_subdirectory(grc)
 else(ENABLE_PYTHON)
-  message(STATUS "PYTHON and GRC components are disabled")
+    message(STATUS "PYTHON and GRC components are disabled")
 endif(ENABLE_PYTHON)
 
 ########################################################################
 # Install cmake search helper for this library
 ########################################################################
 
-install(FILES cmake/Modules/gnuradio-communication_simulationConfig.cmake
-    DESTINATION ${GR_CMAKE_DIR}
-)
+install(FILES cmake/Modules/gnuradio-communication_simulationConfig.cmake DESTINATION ${GR_CMAKE_DIR})
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/cmake/Modules/targetConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/Modules/${target}Config.cmake
-    INSTALL_DESTINATION ${GR_CMAKE_DIR}
-)
+    INSTALL_DESTINATION ${GR_CMAKE_DIR})
+
+install(FILES MANIFEST.yml
+    RENAME MANIFEST-${VERSION_MAJOR}.${VERSION_API}.${VERSION_ABI}${VERSION_PATCH}.yml
+    DESTINATION share/gnuradio/manifests/communication_simulation)

@@ -1,10 +1,10 @@
-id: communication_simulation_communication_simulation
-label: communication_simulation
-category: '[communication_simulation]'
+id: communication_simulation_tx
+label: TX
+category: '[Communication Simulation]'
 
 templates:
   imports: from gnuradio import communication_simulation
-  make: communication_simulation.communication_simulation(addr_src, addr_dst, data, addr_src_size, addr_dst_size, data_size)
+  make: communication_simulation.tx(addr_src, addr_dst, data, addr_src_size, addr_dst_size, data_size)
 
 parameters:
   - id: addr_src
@@ -28,7 +28,6 @@ parameters:
     label: Data Size
     dtype: int
     default: 4
-inputs: []
 outputs:
   - label: Source Address Output
     dtype: byte

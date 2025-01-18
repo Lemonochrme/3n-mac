@@ -1,24 +1,33 @@
-id: 3n_mac_decode
-label: 3N-MAC Decode
+id: n3_mac_decode
+label: Decode
 category: '[3N-MAC]'
+
 templates:
   imports: from gnuradio import n3_mac
-  make: n3_mac.decode()
+  make: n3_mac.decode(addr_src_size, addr_dst_size, data_size)
+
 parameters:
-- id: 3n_decode
+  - id: addr_src_size
+    label: Source Address Size
+    dtype: int
+    default: 2
+  - id: addr_dst_size
+    label: Destination Address Size
+    dtype: int
+    default: 2
+  - id: data_size
+    label: Data Size
+    dtype: int
+    default: 4
 inputs:
-  - label: "size"
-    domain: stream
-    dtype: uint8
-  - label: "payload"
-    domain: stream
-    dtype: uint8
-  - label: "crc"
-    domain: stream
-    dtype: uint32
+  - label: Encoded Input
+    dtype: byte
 outputs:
-  - label: "data"
-    domain: stream
-    dtype: uint8
-  
+  - label: Source Address Output
+    dtype: byte
+  - label: Destination Address Output
+    dtype: byte
+  - label: Data Output
+    dtype: byte
+
 file_format: 1

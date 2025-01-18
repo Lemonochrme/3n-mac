@@ -1,26 +1,33 @@
-id: 3n_mac_encode
-label: 3N-MAC Encode
+id: n3_mac_encode
+label: Encode
 category: '[3N-MAC]'
+
 templates:
   imports: from gnuradio import n3_mac
-  make: n3_mac.encode()
-parameters:
-- id: 3n_encode
-inputs:
-  - label: "data"
-    domain: stream
-    dtype: uint8
-outputs:
-  - label: "size"
-    domain: stream
-    dtype: uint8
-  - label: "payload"
-    domain: stream
-    dtype: uint8
-  - label: "crc"
-    domain: stream
-    dtype: uint8
+  make: n3_mac.encode(addr_src_size, addr_dst_size, data_size)
 
-#  'file_format' specifies the version of the GRC yml format used in the file
-#  and should usually not be changed.
+parameters:
+  - id: addr_src_size
+    label: Source Address Size
+    dtype: int
+    default: 2
+  - id: addr_dst_size
+    label: Destination Address Size
+    dtype: int
+    default: 2
+  - id: data_size
+    label: Data Size
+    dtype: int
+    default: 4
+inputs:
+  - label: Source Address Input
+    dtype: byte
+  - label: Destination Address Input
+    dtype: byte
+  - label: Data Input
+    dtype: byte
+outputs:
+  - label: Encoded Output
+    dtype: byte
+
 file_format: 1

@@ -1,10 +1,10 @@
-id: mac_encode_mac_encode
-label: mac_encode
-category: '[mac_encode]'
+id: communication_simulation_rx
+label: RX
+category: '[Communication Simulation]'
 
 templates:
-  imports: from gnuradio import mac_encode
-  make: mac_encode.mac_encode(addr_src_size, addr_dst_size, data_size)
+  imports: from gnuradio import communication_simulation
+  make: communication_simulation.rx(addr_src_size, addr_dst_size, data_size)
 
 parameters:
   - id: addr_src_size
@@ -26,8 +26,11 @@ inputs:
     dtype: byte
   - label: Data Input
     dtype: byte
+
 outputs:
-  - label: Encoded Output
-    dtype: byte
+  - label: msg_out
+    id: msg_out  # Ensure the ID matches the registered port name
+    dtype: message
+    optional: true
 
 file_format: 1

@@ -20,5 +20,6 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
-from .communication_simulation import communication_simulation
+from .communication_simulation import tx, rx
+
 #
