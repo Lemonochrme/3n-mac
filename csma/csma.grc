@@ -1,0 +1,253 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: csma
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 12]
+    rotation: 0
+    state: enabled
+- name: variable_qtgui_range_0
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.1'
+    stop: '2'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 528.0]
+    rotation: 0
+    state: enabled
+- name: vec_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '1024'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 16.0]
+    rotation: 0
+    state: enabled
+- name: analog_noise_source_x_0_0
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: variable_qtgui_range_0
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [560, 336.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '1000'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 536.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '0.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_SQR_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 704.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 608.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nimport random\nimport\
+      \ time\n\nclass CSMA_CA_Block(gr.sync_block):\n    \"\"\"CSMA/CA Implementation\
+      \ with dual inputs\"\"\"\n\n    def __init__(self, energy_threshold=0.1, backoff_max=5,\
+      \ slot_time=0.01):\n        \"\"\"\n        Arguments:\n        - energy_threshold:\
+      \ Threshold to detect if the channel is busy.\n        - backoff_max: Maximum\
+      \ number of backoff slots.\n        - slot_time: Time duration of a single backoff\
+      \ slot (in seconds).\n        \"\"\"\n        gr.sync_block.__init__(\n    \
+      \        self,\n            name=\"CSMA/CA Block\",\n            in_sig=[np.complex64,\
+      \ np.complex64],  # Two inputs: ambient signal, signal to transmit\n       \
+      \     out_sig=[np.complex64]               # One output: transmitted signal\n\
+      \        )\n        self.energy_threshold = energy_threshold\n        self.backoff_max\
+      \ = backoff_max\n        self.slot_time = slot_time\n        self.backoff_active\
+      \ = False\n\n    def detect_channel_busy(self, ambient_signal):\n        \"\"\
+      \"Detect if the channel is busy based on energy threshold.\"\"\"\n        energy\
+      \ = np.mean(np.abs(ambient_signal)**2)\n        return energy > self.energy_threshold\n\
+      \n    def work(self, input_items, output_items):\n        \"\"\"CSMA/CA work\
+      \ function.\"\"\"\n        ambient_signal = input_items[0]  # Signal to monitor\
+      \ (ambient)\n        transmit_signal = input_items[1]  # Signal to transmit\n\
+      \        output_signal = output_items[0]   # Output signal\n\n        # Detect\
+      \ if the channel is busy\n        if not self.detect_channel_busy(ambient_signal):\n\
+      \            # Channel is free, transmit the signal\n            output_signal[:]\
+      \ = transmit_signal\n            self.backoff_active = False\n        else:\n\
+      \            # Channel is busy, apply backoff\n            if not self.backoff_active:\n\
+      \                backoff_time = random.randint(0, self.backoff_max) * self.slot_time\n\
+      \                print(f\"Channel busy, applying backoff of {backoff_time:.3f}\
+      \ seconds\")\n                time.sleep(backoff_time)\n                self.backoff_active\
+      \ = True\n            # Block transmission during backoff\n            output_signal[:]\
+      \ = np.zeros_like(transmit_signal)\n\n        return len(output_signal)\n"
+    affinity: ''
+    alias: ''
+    backoff_max: '10'
+    comment: ''
+    energy_threshold: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    slot_time: '1'
+  states:
+    _io_cache: ('CSMA/CA Block', 'CSMA_CA_Block', [('energy_threshold', '0.1'), ('backoff_max',
+      '5'), ('slot_time', '0.01')], [('0', 'complex', 1), ('1', 'complex', 1)], [('0',
+      'complex', 1)], 'CSMA/CA Implementation with dual inputs', ['backoff_max', 'energy_threshold',
+      'slot_time'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 392.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1296, 376.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_noise_source_x_0_0, '0', epy_block_0, '0']
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0, '1']
+- [blocks_multiply_xx_0, '0', epy_block_0, '1']
+- [epy_block_0, '0', qtgui_sink_x_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.11.0
